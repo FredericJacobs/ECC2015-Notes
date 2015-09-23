@@ -1,4 +1,5 @@
 \documentclass[11pt]{article}
+\usepackage{amsfonts}
 \usepackage[utf8]{inputenc}
 
 \begin{document}
@@ -61,5 +62,69 @@ Elliptic curve points multiplication methods are then covered (Double-and-add, w
 But the conditional branches depend on the value of a secret bit $k_i$. Hence, it might be vulnerable to branch prediction attacks. We can compute indices for $T_0$ and $T_1$ from $k_i$? Issue is that memory access to $T_0$ or $T_1$ depend on secret bit $k_i$, hence might be vulnerable to cache attacks.
 
 Solution: use bit masking to avoid secret-dependent memory access patterns.
+
+\subsection{The group of rational points of an elliptic curve over a finite field}
+Presentation by Damien Robert. He starts his presentation by defining an elliptic curves over complex numbers and defining classes of isomorphisms of elliptic curves. Two elliptic curves $E$ and $E'$ are isomorphic over $\bar{k} \iff j_{E} = j{\bar{E}}$ where $j$ is the $j-invariant$.
+
+A twist of an elliptic curve $E/k$ is an elliptic curve $E'/k$ isomorphic to $E$ over $\bar{k}$ but not over $k$.
+
+Why look at the complex numbers? For cryptography we work with elliptic curves over finite fields. Everything that is true over $\mathbb{C}$ is true over other fields except when it is not true (non algebraically closed fields, characteristic $p$ ...). Example: "there are $n^2$ points of $N$-torsion."
+How can we transfer results from $\mathbb{C}$ to other fields?
+Damien then goes back to $\mathbb{C}$ and defines the Weil pairing over $\mathbb{C}$.
+For more notes on this session, refer to slides.
+
+\subsection{Algorithms for discrete logarithms in finite fields and elliptic curves}
+Presentation by Emmanuel Thomé. Introduction to ECDLP. This presentation does not address here the DH-related problems, but really the computation of DL.
+\subsubsection{Hardness}
+What does it mean for:
+\begin{itemize}
+	\item DLP to be hard on EC
+	\item DLP to be moderately hard on finite fields
+	\item DLP to be easy on small characteristic finite fields.
+\end{itemize}
+
+We want the cost of computing DL by most efficient
+means known to grow fast.
+
+So, what groups shall we avoid?
+\begin{itemize}
+	\item Easy DL: $(\mathbb{Z}/N\mathbb{Z}, +)$
+	\item Not-so-hard DL: finite fields, curves of very large genus, class
+groups of number fields
+	\item Hard DL: elliptic curves, curves of genus 2
+\end{itemize}
+
+Claim: since finite fields are not-so-hard, why not ditch them and just use EC hardness?
+
+Why finite fields are still interesting 
+\begin{itemize}
+	\item Some protocols prefer them
+	\item Pairings! Some cryptographic protocols use pairings:
+\[
+	e: \mathbb{G} \times \mathbb{G} \to K^\star
+\]
+	\item Tricks with subgroups of the multiplicative group. \begin{itemize}
+		\item we are not necessarily interested in the DLP in the whole
+multiplicative group per se
+		\item we shall not be annoyed by some uninteresting prime factors
+behaving oddly
+		\item DL modulo small primes can be handled differently anyway 
+	\end{itemize}
+\end{itemize}
+
+Known generic solutions to DLP. All of the following algorithms are exponential in the bit-size of G:
+\begin{itemize}
+	\item Enumeration
+	\item Baby-step–Giant-step
+	\item Pollard $\rho$
+	\item Parallel collision search
+\end{itemize}
+
+In Nechaev-Shoup [Nec94,Sho97], lower-bound for a generic (black-box) group $G$ with $n = \sqrt{G}$, no discrete logarithm algorithm succeeds in time less than $\mathcal{O}(\sqrt(n))$.
+
+As it turns out, finite fields have faster DLP algorithms than generic groups. First algorithm of this kind: Adleman [Adl79], based on the combination of congruences idea. \newline
+Smoothness: a polynomial of degree at most $n$ is $k$-smooth if all its irreducible factors have degree at most $k$. The smoothness is a construction kit situation. Works fine for finite fields, much less for EC. 
+
+Overview of Adleman's algorithm (See slides/online). Thanks to the smoothness probability, we can find an optimal choice for the B factor. The overall complexity of Adleman's algorithm is sub-exponential complexity. Consequence, the key size is roughly the square of time. 
 
 \end{document}
