@@ -49,5 +49,17 @@ For hardware implementations, there are additional layers:
 
 All (top) layers might lead to critical vulnerabilities if poorly implemented! ECC is no more secure than its weakest link.
 
-Jérémie concludes with some references. Most books are already quite old. He suggests to read proceedings of recent crypto conferences such as CHES.
+Jérémie concludes introduction with some references. Most books are already quite old. He suggests to read proceedings of recent crypto conferences such as CHES.
+
+Elliptic curve points multiplication methods are then covered (Double-and-add, windowed method, wNAF method, GLV curves ...). The double-and-add algorithm is easily vulnerable to timing analysis (by revealing the hamming weight of secret k) and a power analysis will leak bits of k. An counter-measure to this attack could be to "double-and-add-always" but this is still vulnerable to fault-attacks. A better alternative is the Montgomery ladder since it has the following properties: 
+\begin{itemize}
+	\item performs one addition and one doubling at each step
+	\item ensure that both results are used in the next step
+	\item loop invariant: $T_1$ = $T_0$ + $P$ (See slides)
+\end{itemize}
+
+But the conditional branches depend on the value of a secret bit $k_i$. Hence, it might be vulnerable to branch prediction attacks. We can compute indices for $T_0$ and $T_1$ from $k_i$? Issue is that memory access to $T_0$ or $T_1$ depend on secret bit $k_i$, hence might be vulnerable to cache attacks.
+
+Solution: use bit masking to avoid secret-dependent memory access patterns.
+
 \end{document}
