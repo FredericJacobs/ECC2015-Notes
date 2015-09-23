@@ -125,6 +125,18 @@ In Nechaev-Shoup [Nec94,Sho97], lower-bound for a generic (black-box) group $G$ 
 As it turns out, finite fields have faster DLP algorithms than generic groups. First algorithm of this kind: Adleman [Adl79], based on the combination of congruences idea. \newline
 Smoothness: a polynomial of degree at most $n$ is $k$-smooth if all its irreducible factors have degree at most $k$. The smoothness is a construction kit situation. Works fine for finite fields, much less for EC. 
 
-Overview of Adleman's algorithm (See slides/online). Thanks to the smoothness probability, we can find an optimal choice for the B factor. The overall complexity of Adleman's algorithm is sub-exponential complexity. Consequence, the key size is roughly the square of time. 
+Overview of Adleman's algorithm (See slides/online). Thanks to the smoothness probability, we can find an optimal choice for the B factor. The overall complexity of Adleman's algorithm is sub-exponential complexity, L(1/2). Consequence, the key size is roughly the square of time.
+
+\subsubsection{L(1/3) Algorithms}
+
+What makes Adleman's algorithm so slow?
+
+\begin{itemize}
+	\item Elements created as $g^r \mod p$ are as large as $p$
+	\item For computing individual logarithms, we have no way to take advantage of the fact that $h$ might perhaps have not-so-large bit size.
+\end{itemize}
+
+If we could take advantage of $h$ might have a not-so-large bit size, we might imagine a recursive procedure. Getting to the FFS
+
 
 \end{document}
