@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{ECC Summer School 2015}
+\subsection{Intro - Software and Hardware implementation of Elliptic Curve Cryptography}
+Presentation by Jérémie Detrey.
+Reminders on elliptic curves over finite fields, associated operations, ECDH and ElGamal. \newline
+Jérémie then states the design goals of ECC implementations: efficient and secure. 
+
+Efficiency can have multiple meanings. Does it refer to:
+\begin{itemize}
+	\item fast? $\to$ low latency or high throughput?
+	\item small? $\to$ low memory / code / silicon usage?
+	\item low power? ... or low energy?
+\end{itemize}
+Constraints are going to depend to the application and target platform.
+
+The other design goal was security, but secure against which attack:
+\begin{itemize}
+	\item protocol attacks? (FREAK, LogJam, etc) [More in N. Heninger's talk]
+	\item curve attacks? (weak curves, twist security, etc.)
+	\item timing attacks? [More in P. Schwabe's talk]
+	\item fault attacks? [More in J. Krämer's talk]
+	\item cache attacks?
+	\item branch-prediction attacks?
+	\item power or electromagnetic analysis?
+\end{itemize}
+
+A list of possible target platforms is enumerated to highlight the discrepancy in resources between them.
+
+The layer of ECC implementations are usually: 
+\begin{itemize}
+	\item protocol (OpenPGP, TLS, SSH, etc)
+	\item cryptographic primitives (ECDH, ECDSA, etc)
+	\item scalar multiplication
+	\item elliptic curve arithmetic (point addition, point doubling, etc.)
+	\item finite field arithmetic (addition, multiplication, inversion ...)
+	\item native integer arithmetic (CPU instruction set)
+\end{itemize}
+
+For hardware implementations, there are additional layers:
+\begin{itemize}
+	\item logic circuits (registers, multiplexers, adders, etc.)
+	\item logic gates (NOT, NAND, etc.) and wires
+	\item transistors
+\end{itemize}
+
+All (top) layers might lead to critical vulnerabilities if poorly implemented! ECC is no more secure than its weakest link.
+
+Jérémie concludes with some references. Most books are already quite old. He suggests to read proceedings of recent crypto conferences such as CHES.
+\end{document}
