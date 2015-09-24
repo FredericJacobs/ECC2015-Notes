@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 
 \begin{document}
@@ -132,11 +133,46 @@ Overview of Adleman's algorithm (See slides/online). Thanks to the smoothness pr
 What makes Adleman's algorithm so slow?
 
 \begin{itemize}
-	\item Elements created as $g^r \mod p$ are as large as $p$
+	\item Elements created as $g^r \pmod p$ are as large as $p$
 	\item For computing individual logarithms, we have no way to take advantage of the fact that $h$ might perhaps have not-so-large bit size.
 \end{itemize}
 
-If we could take advantage of $h$ might have a not-so-large bit size, we might imagine a recursive procedure. Getting to the FFS
+If we could take advantage of $h$ might have a not-so-large bit size, we might imagine a recursive procedure. Getting to the NFS-DL via the FFS.
 
+Outline of algorithm: 
+\begin{itemize}
+	\item Do the setup. Choose a factor base bound $B$ 
+	\item Relation search. Pick pairs $a, b$ for coprime integers $a$ and $b$. Expect $a - bm$ to be a smooth integer. Expect also the ideal $(a-b\alpha)$ to be smooth. Compute Schirokauer maps. Do linear algebra to compute virtual logarithms of factor base elements. Compute individual logarithms.
+\end{itemize}
+
+Analysis of runtime of NFS gives $L_p[1/3]$ where $p$ is a prime. Not all $p$ are born equal. Some exceptionally easy $p$ conspicuous. But disguising an easy $p$ as an honest random-looking $p$ is easy: pick $f$ and $g$ to our liking; publish $p$ = Res($f$ , $g$ ). Improvements since NFS. The complexity depends much on how $n$ compares to log $p$ for $\mathbb{F}_{p^n}$.
+
+Covers $L(1/3)$ on large genus curves.
+
+\subsubsection{Benefits of Sieving}
+\begin{itemize}
+	\item Forced factor in the norm improves the smoothness probability
+	\item Reduced lattice basis limits the expense of this constraint on the size of $(a,b)$.
+	\item Sieved areas are smaller, each is typically manageable on a single node.
+	\item Special-q [DH84] provide an easy division (reduces sieving space), with (almost) stable yield. (Gives reasonable expectations of time computation will take)
+\end{itemize}
+
+Implementation tricks such as sieving by vectors and bucket sieving can improve performance.
+
+Black box algorithms favorable for performance reasons. State of the art:
+\begin{itemize}
+	\item Block Wiedemann algorithm: offers more distribution opportunities
+	\item Block Lanczos algorithm: needs fewer matrix operations
+\end{itemize}
+
+Current record in $\mathbb{F}_p$: Bouvier, Gaudry, Imbert, Jeljeli, T.: 180dd (600 bits), 2014\newline
+Records over binary fields: \begin{itemize}
+	\item Record for $\mathbb{F}_{2^p}$ : 1279 bits [Kleinjung14]
+	\item Record for $\mathbb{F}_{2^n}$ : 9234 bits (9234 = 2 · 35 · 19) [GKZ14]
+\end{itemize}
+
+\subsubsection{Quasi-polynomial DLP in small characteristic} [See Slides]
+
+Conclusion: New algorithm Quasi-polynomial complexity. Relies on heuristic, experimentally checked. RIP small characteristic pairings. This does not affect RSA, nor large characteristic DLP.
 
 \end{document}
