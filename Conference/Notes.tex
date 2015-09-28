@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+
+
+\begin{document}
+
+This is WIP
+
+These notes define outlines of the talks for more details, refer to the slides.
+\section{ECC Conference 2015}
+
+
+\subsection{How Diffie-Hellman fails in practice}
+Presentation by Nadia Heninger.
+
+\subsection{Computing individual discrete logarithms faster in $\mathbb{F}_{p^N}$ (last step of the Number Field Sieve algorithm)}
+Presentation by Aurore Guillevic. Aurore presents records in small characteristic fields. Then presents curves that are more appropriate for pairings. Those curves can still be attacked by the Number Field Sieve and variants. Attacks by [Joux Pierrot 13] and [Barbulescu Gaudry Kleinjung 15].
+
+Logjam attacks with NFS-DL algorithm, pre-computation: 10 core-year. For individual logarithm 2 core days. Aurore then gives an overview of the NFS algorithm for DL that was implemented in CADO-NFS (http://cado-nfs.gforge.inria.fr/) and complexity. Many optimizations of the preimage computations are presented that lead to a new record.
+
+\subsection{Discrete Logarithms in Medium Characteristic Finite Fields}
+Presentation by Cécile Pierrot. Related paper: https://eprint.iacr.org/2014/641.pdf
+
+DLP complexity depends on group. Some algorithms are specific to some fields, other ones are generic. Reviewing the Index Calculus algorithms and classical NFS.
+
+The main part of the presentation describes new theoretical improvements to solve the DL in medium characteristic fields. Namely the Conjugation Method [Razvan Barbulescu, Pierrick Gaudry, Aurore Guillevic, and François
+Morain. Improvements to the number field sieve for non-prime finite fields.
+INRIA Hal Archive, Report 01052449, 2014], Multiple NFS [Razvan Barbulescu and Cécile Pierrot. The multiple number field sieve for
+medium and high characteristic finite fields. LMS Journal of Computation
+and Mathematics, 17:230–246, 2014.] and combining these two methods.
+
+The second category of improvements presented are related to the computation improvements for sparse matrices in Index Calculus. The technique for sparse matrices consists of choosing pivots that minimize the sparsity. Cécile then reminds us about the Wiedemann algorithm and the block variant.
+
+In NFS, we can have matrices that are dense and "nearly sparse", what algorithm do we apply to speed up the computation? Nearly sparse linear algebra...
+The main idea is to apply Block-Wiedemann on the sparse part only then make the d dense columns contribute in the initial block. Detailed explanations in paper and slides. https://hal.inria.fr/hal-01154879/document
+
+A claim that when we have more machines (cores) than dense columns, these columns cost nothing to their algorithm raised multiple questions from the audience. Seems like it would actually cost something, but a constant.
+
+\subsection{Algorithms for the ECDLP}
+Presentation by Steven Galbraith. Steven starts by stating the ECDLP.
+
+The journey into ECDLP algorithms starts with the baby-step-giant-step algorithm. Steven then presents running time of multiple bsgs algorithms. Details can be found in the following paper: https://eprint.iacr.org/2015/605
+
+The second part is dedicated to speed ups for ECDLP algorithms using point decomposition (Semaev's summation polynomials), symmetries (\url{http://arxiv.org/abs/1304.6039}, \url{http://www.sciencedirect.com/science/article/pii/S0747717183710515}, \url{http://link.springer.com/chapter/10.1007/978-3-642-55220-5_3}) ...
+
+Conclusion: there are still open questions about the baby-step-giant-step algorithm. Symmetries are useful when computing with summation polynomials, but further progress seems limited. SAT solvers are an interesting alternative to Gröbner basis methods and can be faster in some situations.
+
+
+\end{document}
