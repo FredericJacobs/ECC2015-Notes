@@ -40,6 +40,7 @@ The main idea is to apply Block-Wiedemann on the sparse part only then make the 
 A claim that when we have more machines (cores) than dense columns, these columns cost nothing to their algorithm raised multiple questions from the audience. Seems like it would actually cost something, but a constant.
 
 \subsection{Algorithms for the ECDLP}
+
 Presentation by Steven Galbraith. Steven starts by stating the ECDLP.
 
 The journey into ECDLP algorithms starts with the baby-step-giant-step algorithm. Steven then presents running time of multiple bsgs algorithms. Details can be found in the following paper: https://eprint.iacr.org/2015/605
@@ -48,5 +49,42 @@ The second part is dedicated to speed ups for ECDLP algorithms using point decom
 
 Conclusion: there are still open questions about the baby-step-giant-step algorithm. Symmetries are useful when computing with summation polynomials, but further progress seems limited. SAT solvers are an interesting alternative to Gröbner basis methods and can be faster in some situations.
 
+\subsection{Verifying ECC Software}
+Presentation by Peter Schwabe
+(mainly: verifying Curve25519)
+
+Overview of X25519, the DH key exchange over Curve 25519. Implementations rely on the Montgomery ladder. Peter then lists Curve25519 implementations. Real-world attackers often don’t break the math. Often a very practical attack: timing attacks. Examples of timing attacks on encryption implementations:
+\begin{itemize}
+\item 2006: Recover AES-256 secret key of Linux’s dmcrypt in just 65 ms.
+\item 2014: OpenSSL ECDSA timing attack
+\end{itemize}
+
+How to get constant-time software?
+
+\begin{itemize}
+\item Avoid secret branch conditions: No data flow from secret data into branch conditions
+\item Avoid memory access at secret positions: No data flow from secret data into addresses!
+\end{itemize}
+
+Correct software? Hard to be sure that software is correct.
+
+Bug attacks. Bug in crypto that is triggered with very low probability. Attacker finds the bug, craft input that:
+\begin{itemize}
+\item triggers the bug if secret bit is 0
+\item does not trigger the bug if secret bit is 1
+\end{itemize}
+
+Example: 2011 (vercauteren) exploit such a bug in OpenSSL 0.9.8g elliptic curve DH. January 2015 similar bug in OpenSSL.
+
+Example: bug in assembly due to radix representation.
+
+Directions:
+\begin{itemize}
+\item Testing
+\item Audits
+\item Formal verification
+\end{itemize}
+
+New idea: Using linear algebra computer systems to verify implementations.
 
 \end{document}
